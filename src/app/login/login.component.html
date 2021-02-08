@@ -1,0 +1,13 @@
+<div class="form__container">
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>ایمیل</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>رمز عبور</mat-label>
+      <input matInput formControlName="password">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">ورود</button>
+  </form>
+</div>

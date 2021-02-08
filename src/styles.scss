@@ -1,4 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/theming";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+  font-family: "IRAN YEKAN";
+  src: url("http://cdn.font-store.ir/yekan.css");
+}
+
+$typography-1: mat-typography-config(
+  $font-family: "IRAN YEKAN"
+);
+@include angular-material-typography($typography-1);
+
+.form__container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio {
+  display: block !important;
+}
