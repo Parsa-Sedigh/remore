@@ -10,7 +10,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 $typography-1: mat-typography-config(
   $font-family: "IRAN YEKAN"
 );
-@include angular-material-typography($typography-1);
+//@include angular-material-typography($typography-1);
 
 .form__container {
   height: 100vh;

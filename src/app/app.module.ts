@@ -11,25 +11,37 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
-import { DashboradComponent } from './dashborad/dashborad.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {MatTableModule} from '@angular/material/table';
+import { HeaderComponent } from './header/header.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import { FooterComponent } from './footer/footer.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboradComponent
+    DashboardComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatRadioModule,
-    ReactiveFormsModule,
-    FormsModule
+    MatToolbarModule,
+    MatIconModule,
+    MatTableModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
