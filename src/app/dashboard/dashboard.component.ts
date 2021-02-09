@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {MatSidenav} from '@angular/material/sidenav';
 import {DataService} from '../shared/data.service';
+import {Subscription} from 'rxjs';
 
 export interface PeriodicElement {
   name: string;
@@ -16,11 +17,11 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ts-ignore
   private readonly webSocketSubject: WebSocketSubject<any> = new webSocket('ws://remorebot.com/un1/socket.io');
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  tableSource: PeriodicElement[] = [
+  readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
     {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
     {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
@@ -34,16 +35,51 @@ export class DashboardComponent implements OnInit {
   ];
   // @ts-ignore
   @ViewChild('sidenav') sidenav: MatSidenav;
+  private sidenavSubscription: Subscription | undefined;
+  readonly gaugeData = [
+    {
+      "name": "UK",
+      "value": 5200000
+    },
+    {
+      "name": "Italy",
+      "value": 7700000
+    },
+    {
+      "name": "Spain",
+      "value": 4300000
+    }
+  ];
+  readonly colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB']
+  };
+  readonly gaugeDimensions: [number, number] = [400, 300];
 
   constructor(private readonly dataService: DataService) { }
 
   ngOnInit(): void {
-    this.webSocketSubject
-      .subscribe(res => console.log({res}));
+    // this.webSocketSubject
+    //   .subscribe(res => console.log({res}));
+  }
+
+  ngAfterViewInit() {
+    this.sidenavSubscription = this.dataService.currentSidenav
+      .subscribe(sidenavState => {
+        console.log(sidenavState);
+        if (sidenavState) {
+          this.sidenav.open();
+        } else {
+          this.sidenav.close();
+        }
+      });
   }
 
   onCloseSidebar(): void {
+    this.dataService.changeSidenav(false);
+  }
 
+  ngOnDestroy() {
+    this.sidenavSubscription?.unsubscribe();
   }
 
 }

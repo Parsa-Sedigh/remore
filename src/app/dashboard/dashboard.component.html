@@ -5,8 +5,21 @@
 
   <mat-sidenav-content>
     <section class="section-dashboard">
-      <section class="table">
-        <mat-table [dataSource]="tableSource" class="mat-elevation-z8">
+      <div class="charts">
+        <div class="charts__gauge">
+          <ngx-charts-gauge [results]="gaugeData"
+                            [view]="gaugeDimensions"
+                            [scheme]="colorScheme">
+          </ngx-charts-gauge>
+        </div>
+
+        <div class="charts__meter">
+
+        </div>
+      </div>
+
+      <div class="table">
+        <mat-table [dataSource]="tableSource" class="mat-elevation-z8 my-mat-table">
           <ng-container matColumnDef="position">
             <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
@@ -30,7 +43,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-      </section>
+      </div>
     </section>
   </mat-sidenav-content>
 </mat-sidenav-container>

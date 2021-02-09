@@ -1,8 +1,32 @@
 .section-dashboard {
-  padding-top: 4rem;
+  padding-top: 6rem;
+  margin: 0 1rem;
 }
 
 .table {
   width: 70%;
-  margin: 2rem auto;
+  margin: 1rem auto 2rem;
+}
+
+.mat-table {
+  background-color:transparent!important;
+  border-radius: 8px;
+}
+
+.mat-row:last-child {
+  /*To remove the last border*/
+  border-bottom:0 solid;
+}
+
+.charts {
+
+  &__gauge {
+    width: 400px;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+    0px 8px 10px 1px rgb(0 0 0 / 14%),
+    0px 3px 14px 2px rgb(0 0 0 / 12%);
+  }
 }

@@ -18,6 +18,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { FooterComponent } from './footer/footer.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -28,21 +29,22 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     HeaderComponent,
     FooterComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatTableModule,
-    MatSidenavModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatRadioModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTableModule,
+        MatSidenavModule,
+        NgxChartsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

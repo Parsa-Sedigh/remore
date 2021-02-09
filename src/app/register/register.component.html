@@ -1,23 +1,23 @@
 <div class="form__container mat-typography">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
-      <mat-label class="mat-typography">ایمیل</mat-label>
+      <mat-label class="mat-typography">email</mat-label>
       <input matInput formControlName="email">
     </mat-form-field>
     <mat-form-field>
-      <mat-label>رمز عبور</mat-label>
+      <mat-label>password</mat-label>
       <input matInput formControlName="password">
     </mat-form-field>
     <mat-form-field>
-      <mat-label>تکرار رمز عبور</mat-label>
+      <mat-label>repeat password</mat-label>
       <input matInput formControlName="password">
     </mat-form-field>
 
     <mat-radio-group formControlName="plans" [(ngModel)]="selectedPlan">
-      <mat-radio-button class="radio" [value]="1">پلن ۱</mat-radio-button>
-      <mat-radio-button class="radio" [value]="2">پلن ۲</mat-radio-button>
-      <mat-radio-button class="radio" [value]="3">پلن ۳</mat-radio-button>
+      <mat-radio-button class="radio" [value]="1">plan1</mat-radio-button>
+      <mat-radio-button class="radio" [value]="2">plan2</mat-radio-button>
+      <mat-radio-button class="radio" [value]="3">plan3</mat-radio-button>
     </mat-radio-group>
-    <button mat-raised-button color="primary" type="submit">ثبت نام</button>
+    <button mat-raised-button color="primary" type="submit">register</button>
   </form>
 </div>
