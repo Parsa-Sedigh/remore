@@ -11,3 +11,24 @@
   //color: #fff;
   z-index: 2;
 }
+
+.remoreLink {color: #fff;}
+
+.more {margin-left: 1rem;}
+.logout {
+  font-size: 1rem;
+  color: #000;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.toggles {
+  display: flex;
+}
+
+.theme-icon {
+  margin-right: .5rem;
+  cursor: pointer;
+}

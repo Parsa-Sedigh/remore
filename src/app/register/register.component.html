@@ -1,23 +1,31 @@
 <div class="form__container mat-typography">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
-      <input matInput formControlName="email">
+      <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
     </mat-form-field>
-    <mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>password</mat-label>
       <input matInput formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>repeat password</mat-label>
-      <input matInput formControlName="password">
+      <input matInput [type]="repeatHide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="repeatHide = !repeatHide" type="button">
+        <mat-icon>{{repeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
     </mat-form-field>
 
     <mat-radio-group formControlName="plans" [(ngModel)]="selectedPlan">
-      <mat-radio-button class="radio" [value]="1">plan1</mat-radio-button>
-      <mat-radio-button class="radio" [value]="2">plan2</mat-radio-button>
-      <mat-radio-button class="radio" [value]="3">plan3</mat-radio-button>
+      <mat-radio-button class="radio" [value]="1">Super VIP</mat-radio-button>
+      <mat-radio-button class="radio" [value]="2">VIP</mat-radio-button>
+      <mat-radio-button class="radio" [value]="3">Normal</mat-radio-button>
     </mat-radio-group>
     <button mat-raised-button color="primary" type="submit">register</button>
   </form>
 </div>
+

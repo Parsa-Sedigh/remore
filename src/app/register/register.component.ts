@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
     plans: new FormControl()
   });
   selectedPlan: any;
+  hide = true;
+  repeatHide = true;
 
   constructor(private readonly router: Router) { }
 

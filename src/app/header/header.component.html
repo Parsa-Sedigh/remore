@@ -1,10 +1,31 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
-    (click)="onToggleSideNav()">
+            (click)="onToggleSideNav()">
       <mat-icon>menu</mat-icon>
     </button>
-    <a routerLink="/">Remore</a>
+    <a class="remoreLink" routerLink="/">Remore</a>
     <span class="example-spacer"></span>
+
+
+    <mat-icon matBadge="3" matBadgeColor="accent">notifications</mat-icon>
+
+    <button class="more" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon class="theme-icon" (click)="onToggleTheme()">dark_mode</mat-icon>
+        <mat-slide-toggle [checked]="isThemeToggleChecked" #themeToggle></mat-slide-toggle>
+      </button>
+
+      <button mat-menu-item>
+        <a routerLink="/login" class="logout">
+          <mat-icon>logout</mat-icon>
+          logout
+        </a>
+      </button>
+    </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>

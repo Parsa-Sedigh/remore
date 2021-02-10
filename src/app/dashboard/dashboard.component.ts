@@ -19,7 +19,7 @@ export interface PeriodicElement {
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ts-ignore
-  private readonly webSocketSubject: WebSocketSubject<any> = new webSocket('ws://remorebot.com/un1/socket.io');
+  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -54,18 +54,34 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     domain: ['#5AA454', '#E44D25', '#CFC0BB']
   };
   readonly gaugeDimensions: [number, number] = [400, 300];
+  readonly verticalBarDimensions: [number, number] = [400, 300];
+  readonly verticalBarData = [
+    {
+      "name": "Germany",
+      "value": 8940000
+    },
+    {
+      "name": "USA",
+      "value": 5000000
+    },
+    {
+      "name": "France",
+      "value": 7200000
+    }
+  ];
+  readonly xAxisLabel = 'hello1';
+  readonly yAxisLabel = 'hello2';
 
   constructor(private readonly dataService: DataService) { }
 
   ngOnInit(): void {
-    // this.webSocketSubject
-    //   .subscribe(res => console.log({res}));
+    this.webSocketSubject
+      .subscribe((res: any) => console.log({res}));
   }
 
   ngAfterViewInit() {
     this.sidenavSubscription = this.dataService.currentSidenav
       .subscribe(sidenavState => {
-        console.log(sidenavState);
         if (sidenavState) {
           this.sidenav.open();
         } else {

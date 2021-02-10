@@ -19,6 +19,10 @@
 }
 
 .charts {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 
   &__gauge {
     width: 400px;
@@ -29,4 +33,26 @@
     0px 8px 10px 1px rgb(0 0 0 / 14%),
     0px 3px 14px 2px rgb(0 0 0 / 12%);
   }
+
+  &__vertical-bar {
+    width: 400px;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+    0px 8px 10px 1px rgb(0 0 0 / 14%),
+    0px 3px 14px 2px rgb(0 0 0 / 12%);
+  }
 }
+
+.sidebar {
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  min-width: 200px;
+  padding: 1rem 0;
+  background-color: #f2f2f2;
+  border-right: 1px solid #dbdbdb;
+}
+

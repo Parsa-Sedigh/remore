@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,8 @@ import {Subscription} from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   isSidenavOpen = false;
   sidenavSubscription: Subscription | undefined;
+  @ViewChild('themeToggle') themeToggle: ElementRef<MatSlideToggle> | undefined;
+  isThemeToggleChecked = false;
 
   constructor(private readonly dataService: DataService) {
   }
@@ -25,6 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isSidenavOpen = !this.isSidenavOpen;
     this.dataService.changeSidenav(this.isSidenavOpen);
   }
+
+  onToggleTheme() {
+    this.isThemeToggleChecked = !this.isThemeToggleChecked;
+  }
+
 
   ngOnDestroy() {
     this.sidenavSubscription?.unsubscribe();

@@ -1,10 +1,19 @@
 <mat-sidenav-container (backdropClick)="onCloseSidebar()">
-  <mat-sidenav #sidenav>
-    sidebar!
+  <mat-sidenav class="sidebar" #sidenav>
+    <button mat-menu-item>
+      <a routerLink="/login" class="logout">
+        <mat-icon>logout</mat-icon>
+        logout
+      </a>
+    </button>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <section class="section-dashboard">
+      <div class="">
+
+      </div>
+
       <div class="charts">
         <div class="charts__gauge">
           <ngx-charts-gauge [results]="gaugeData"
@@ -13,8 +22,17 @@
           </ngx-charts-gauge>
         </div>
 
-        <div class="charts__meter">
-
+        <div class="charts__vertical-bar">
+          <ngx-charts-bar-vertical [results]="verticalBarData"
+                                   [view]="verticalBarDimensions"
+                                   [scheme]="colorScheme"
+                                   [showXAxisLabel]="true"
+                                   [showYAxisLabel]="true"
+                                   [xAxisLabel]="xAxisLabel"
+                                   [yAxisLabel]="yAxisLabel"
+                                    [xAxis]="true"
+                                    [yAxis]="true">
+          </ngx-charts-bar-vertical>
         </div>
       </div>
 

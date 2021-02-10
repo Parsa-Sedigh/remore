@@ -3,8 +3,11 @@
 }
 
 .footer {
-  display: flex;
+  //display: flex;
   padding: 12px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   font-size: 12px;
   background-color: #3F51B5;
 }

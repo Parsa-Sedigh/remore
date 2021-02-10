@@ -19,6 +19,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { FooterComponent } from './footer/footer.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
         MatIconModule,
         MatTableModule,
         MatSidenavModule,
-        NgxChartsModule
+        NgxChartsModule,
+      MatSnackBarModule,
+      MatSlideToggleModule,
+      MatBadgeModule,
+      MatMenuModule
     ],
   providers: [],
   bootstrap: [AppComponent]
