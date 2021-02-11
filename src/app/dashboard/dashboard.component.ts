@@ -3,6 +3,7 @@ import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {MatSidenav} from '@angular/material/sidenav';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -72,7 +73,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly xAxisLabel = 'hello1';
   readonly yAxisLabel = 'hello2';
 
-  constructor(private readonly dataService: DataService) { }
+  constructor(private readonly dataService: DataService,
+              private readonly router: Router) { }
 
   ngOnInit(): void {
     this.webSocketSubject
@@ -93,6 +95,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onCloseSidebar(): void {
     this.dataService.changeSidenav(false);
+  }
+
+  onLogout() {
+    this.router.navigate(['/login']);
   }
 
   ngOnDestroy() {

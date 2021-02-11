@@ -1,18 +1,16 @@
 <mat-sidenav-container (backdropClick)="onCloseSidebar()">
   <mat-sidenav class="sidebar" #sidenav>
-    <button mat-menu-item>
-      <a routerLink="/login" class="logout">
+    <button mat-menu-item (click)="onLogout()">
         <mat-icon>logout</mat-icon>
         logout
-      </a>
     </button>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <section class="section-dashboard">
-      <div class="">
+<!--      <div class="">-->
 
-      </div>
+<!--      </div>-->
 
       <div class="charts">
         <div class="charts__gauge">
