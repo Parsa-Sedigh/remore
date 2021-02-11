@@ -1,5 +1,6 @@
 <div class="form__container mat-typography">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit(regForm)" #regForm>
+
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
