@@ -17,7 +17,7 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy {
   // @ts-ignore
   private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
@@ -77,18 +77,19 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.webSocketSubject
       .subscribe((res: any) => console.log({res}));
+
+    setTimeout(() => {
+      this.sidenavSubscription = this.dataService.currentSidenav
+        .subscribe(sidenavState => {
+          if (sidenavState) {
+            this.sidenav.open();
+          } else {
+            this.sidenav.close();
+          }
+        });
+    }, 0);
   }
 
-  ngAfterViewInit() {
-    this.sidenavSubscription = this.dataService.currentSidenav
-      .subscribe(sidenavState => {
-        if (sidenavState) {
-          this.sidenav.open();
-        } else {
-          this.sidenav.close();
-        }
-      });
-  }
 
   onCloseSidebar(): void {
     this.dataService.changeSidenav(false);

@@ -1,5 +1,5 @@
 <div class="form__container mat-typography">
-  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit(regForm)" #regForm>
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
@@ -20,7 +20,7 @@
       </button>
     </mat-form-field>
 
-    <mat-radio-group formControlName="plans" [(ngModel)]="selectedPlan">
+    <mat-radio-group class="radio-group" formControlName="plans" [(ngModel)]="selectedPlan">
       <mat-radio-button class="radio" [value]="1">Super VIP</mat-radio-button>
       <mat-radio-button class="radio" [value]="2">VIP</mat-radio-button>
       <mat-radio-button class="radio" [value]="3">Normal</mat-radio-button>

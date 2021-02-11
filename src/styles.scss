@@ -1,7 +1,18 @@
 @import "~@angular/material/theming";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 @font-face {
   font-family: "IRAN YEKAN";
   src: url("http://cdn.font-store.ir/yekan.css");
@@ -16,12 +27,10 @@ $typography-1: mat-typography-config(
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-}
+
 
 .radio {
   display: block !important;
@@ -29,4 +38,51 @@ $typography-1: mat-typography-config(
 
 a {
   text-decoration: none;
+}
+
+// mixins
+@mixin respond($breakpoint) {
+  @if($breakpoint == small-phone) { // till 320px
+    // 320 / 16 = 20em
+    @media (max-width: 20em) {
+      @content;
+    }
+  }
+
+  @if($breakpoint == phone) { // till 600px
+    @media (max-width: 37.5em) {
+      @content;
+    }
+  }
+
+  @if($breakpoint == tab-port) { // till 900px
+    @media (max-width: 56.25em) {
+      @content;
+    }
+  }
+
+  @if($breakpoint == tab-land) { // till 1200px
+    @media (max-width: 75em) {
+      @content;
+    }
+  }
+
+  @if($breakpoint == big-desktop) { // +1200px
+    @media (min-width: 112.25em) {
+      @content;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+
+  @include respond(tab-port) {
+    width: 50%;
+  }
+  @include respond(phone) {
+    width: 80%;
+  }
 }

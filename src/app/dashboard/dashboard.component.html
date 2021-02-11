@@ -17,21 +17,19 @@
       <div class="charts">
         <div class="charts__gauge">
           <ngx-charts-gauge [results]="gaugeData"
-                            [view]="gaugeDimensions"
                             [scheme]="colorScheme">
           </ngx-charts-gauge>
         </div>
 
         <div class="charts__vertical-bar">
           <ngx-charts-bar-vertical [results]="verticalBarData"
-                                   [view]="verticalBarDimensions"
                                    [scheme]="colorScheme"
                                    [showXAxisLabel]="true"
                                    [showYAxisLabel]="true"
                                    [xAxisLabel]="xAxisLabel"
                                    [yAxisLabel]="yAxisLabel"
-                                    [xAxis]="true"
-                                    [yAxis]="true">
+                                   [xAxis]="true"
+                                   [yAxis]="true">
           </ngx-charts-bar-vertical>
         </div>
       </div>

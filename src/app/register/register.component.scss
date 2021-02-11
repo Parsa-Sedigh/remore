@@ -1,7 +1,23 @@
+@use "../../styles";
+
 .form {
-  margin: 6rem 0 2rem;
+  margin-bottom: 2rem;
+  @include styles.respond(tab-port) {
+    margin: 4rem 0 6rem;
+  }
 }
 
-::ng-deep .mat-form-field-infix {
-  width: 500px !important;
+::ng-deep {
+  & .mat-form-field-infix {
+    width: 500px !important;
+  }
+  & .mat-radio-button {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.radio-group {
+  margin-bottom: 1rem;
 }
