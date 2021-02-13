@@ -1,10 +1,12 @@
 <div class="form__container mat-typography">
-  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit(regForm)" #regForm>
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
     </mat-form-field>
+    <p *ngIf="errors.isEmailFieldEmpty">This field is empty</p>
+    <p *ngIf="errors.isEmailFieldEmpty && errors.isEmailPattern">Please enter a valid email address</p>
 
     <mat-form-field appearance="outline">
       <mat-label>password</mat-label>
@@ -13,6 +15,8 @@
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <p *ngIf="errors.isPasswordFieldEmpty">This field is empty</p>
+
     <mat-form-field appearance="outline">
       <mat-label>repeat password</mat-label>
       <input matInput [type]="repeatHide ? 'password' : 'text'" formControlName="password">
@@ -20,9 +24,11 @@
         <mat-icon>{{repeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <p *ngIf="errors.isPasswordFieldEmpty">This field is empty</p>
+    <p *ngIf="errors.isRepeatPasswordCorrect">The password and repeat password fields must have same values.</p>
 
     <mat-radio-group class="radio-group" formControlName="plans" [(ngModel)]="selectedPlan">
-      <mat-radio-button class="radio" [value]="1">Super VIP</mat-radio-button>
+      <mat-radio-button class="radio" [value]="1" checked>Super VIP</mat-radio-button>
       <mat-radio-button class="radio" [value]="2">VIP</mat-radio-button>
       <mat-radio-button class="radio" [value]="3">Normal</mat-radio-button>
     </mat-radio-group>

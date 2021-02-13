@@ -1,17 +1,21 @@
 <div class="form__container">
-  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit(f)"  #f>
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
     </mat-form-field>
-
+    <p *ngIf="errors.isEmailFieldEmpty">This field is empty</p>
+    <p *ngIf="errors.isEmailFieldEmpty && errors.isEmailPattern">Please enter a valid email address</p>
     <mat-form-field appearance="outline">
-      <mat-label>repeat password</mat-label>
+      <mat-label>password</mat-label>
       <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+
       <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <p *ngIf="errors.isPasswordFieldEmpty">This field is empty</p>
+
     <button mat-raised-button color="primary" type="submit">login</button>
   </form>
 </div>

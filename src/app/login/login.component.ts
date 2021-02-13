@@ -14,6 +14,11 @@ export class LoginComponent implements OnInit {
     password: new FormControl(null, [Validators.required])
   });
   hidePassword = true;
+  errors = {
+    isEmailFieldEmpty: false,
+    isPasswordFieldEmpty: false,
+    isEmailPattern: true
+  };
 
   constructor(private readonly router: Router,
               private readonly snackbar: MatSnackBar) { }
@@ -21,13 +26,31 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    this.router.navigate(['/'])
-      .then(() => {
-        this.snackbar.open('Welcome to Remore!', 'ok', {
-          duration: 2500
+  onSubmit(loginForm: any): void {
+    console.log(this.loginForm);
+    if (this.loginForm.status === 'VALID') {
+      console.log(this.loginForm);
+      this.router.navigate(['/'])
+        .then(() => {
+          this.snackbar.open('Welcome to Remore!', 'ok', {
+            duration: 2500
+          });
         });
-      });
+    } else {
+      if (this.loginForm.controls.email.errors) {
+        if (this.loginForm.controls.email.errors.required) {
+          this.errors.isEmailFieldEmpty = true;
+        } else if (this.loginForm.controls.email.errors.email) {
+          this.errors.isEmailPattern = false;
+        }
+      }
+      if (this.loginForm.controls.password.errors) {
+        if (this.loginForm.controls.password.errors.required) {
+          this.errors.isPasswordFieldEmpty = true;
+        }
+      }
+    }
+
   }
 
   openSnackBar(message: string) {}
