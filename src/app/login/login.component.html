@@ -1,5 +1,5 @@
-<div class="form__container">
-  <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit(f)"  #f>
+<div class="login-form__container">
+  <form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(f)"  #f>
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
@@ -18,5 +18,9 @@
 
     <button mat-raised-button color="primary" type="submit">login</button>
   </form>
+
+  <div>
+    <a routerLink="/register">not registered yet? Click here.</a>
+  </div>
 </div>
 
