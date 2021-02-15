@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(loginForm: any): void {
+  onSubmit(): void {
     console.log(this.loginForm);
     if (this.loginForm.status === 'VALID') {
       console.log(this.loginForm);
-      this.router.navigate(['/'])
+      this.router.navigate(['/dashboard'])
         .then(() => {
           this.snackbar.open('Welcome to Remore!', 'ok', {
             duration: 2500

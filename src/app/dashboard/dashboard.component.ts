@@ -12,7 +12,6 @@ export interface PeriodicElement {
   symbol: string;
 }
 
-
 @Component({
   selector: 'app-dashborad',
   templateUrl: './dashboard.component.html',
@@ -20,7 +19,7 @@ export interface PeriodicElement {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   // @ts-ignore
-  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
+  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -58,16 +57,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly verticalBarDimensions: [number, number] = [400, 300];
   readonly verticalBarData = [
     {
-      "name": "Germany",
-      "value": 8940000
+      name: 'Germany',
+      value: 8940000
     },
     {
-      "name": "USA",
-      "value": 5000000
+      name: 'USA',
+      value: 5000000
     },
     {
-      "name": "France",
-      "value": 7200000
+      name: 'France',
+      value: 7200000
     }
   ];
   readonly xAxisLabel = 'hello1';

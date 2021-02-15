@@ -1,4 +1,16 @@
 @import "~@angular/material/theming";
+@include mat-core();
+
+$remore-primary: mat-palette($mat-purple);
+$remore-accent: mat-palette($mat-green, A200, A100, A400);
+$remore-theme: mat-dark-theme($remore-primary, $remore-accent);
+@include angular-material-theme($remore-theme);
+
+.remore-dark-theme {
+  @include angular-material-color($remore-theme);
+}
+
+@include mat-core-theme($remore-theme);
 
 html, body {
   position: relative;

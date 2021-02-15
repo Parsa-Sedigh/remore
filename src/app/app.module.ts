@@ -23,7 +23,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {OverlayContainer} from '@angular/cdk/overlay';
+// import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    // PageNotFoundComponent
   ],
     imports: [
         BrowserModule,
@@ -58,4 +59,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(private readonly overlayContainer: OverlayContainer) {
+    overlayContainer.getContainerElement().classList.add('remore-dark-theme');
+  }
+}

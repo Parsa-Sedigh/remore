@@ -1,5 +1,8 @@
 <div class="login-form__container">
-  <form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(f)"  #f>
+  <img src="assets/loginCircle.png" alt="crypto" class="cryptoImg">
+  <img src="assets/loginBubble.png" alt="bubbles" class="bubblesImg">
+
+  <form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
       <mat-label class="mat-typography">email</mat-label>
       <input type="email" placeholder="Ex. example@example.com" matInput formControlName="email" class="input">
@@ -20,7 +23,7 @@
   </form>
 
   <div>
-    <a routerLink="/register">not registered yet? Click here.</a>
+    <a style="color: #fff;" routerLink="/register">not registered yet? Click here.</a>
   </div>
 </div>
 
