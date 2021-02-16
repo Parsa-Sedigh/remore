@@ -1,16 +1,16 @@
 @import "~@angular/material/theming";
 @include mat-core();
-
-$remore-primary: mat-palette($mat-purple);
-$remore-accent: mat-palette($mat-green, A200, A100, A400);
+//$primary-color: #1f2944;
+$remore-primary: mat-palette($mat-indigo);
+$remore-accent: mat-palette($mat-pink, A200, A100, A400);
 $remore-theme: mat-dark-theme($remore-primary, $remore-accent);
 @include angular-material-theme($remore-theme);
 
 .remore-dark-theme {
-  @include angular-material-color($remore-theme);
+  //@include angular-material-color($remore-theme);
 }
 
-@include mat-core-theme($remore-theme);
+//@include mat-core-theme($remore-theme);
 
 html, body {
   position: relative;
@@ -24,16 +24,6 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-@font-face {
-  font-family: "IRAN YEKAN";
-  src: url("http://cdn.font-store.ir/yekan.css");
-}
-
-$typography-1: mat-typography-config(
-  $font-family: "IRAN YEKAN"
-);
-//@include angular-material-typography($typography-1);
 
 .form__container {
   display: flex;

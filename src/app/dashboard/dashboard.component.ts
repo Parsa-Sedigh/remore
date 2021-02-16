@@ -19,7 +19,7 @@ export interface PeriodicElement {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   // @ts-ignore
-  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1');
+  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
