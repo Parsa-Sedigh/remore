@@ -19,7 +19,8 @@ export interface PeriodicElement {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   // @ts-ignore
-  private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
+  private readonly socket: WebSocket = new WebSocket('ws://remorebot.com/un1/socket.io');
+  // private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -76,8 +77,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
               private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.webSocketSubject
-      .subscribe((res: any) => console.log({res}));
+    this.socket.addEventListener('open', (event) => {
+      console.log(event, 'hello server');
+    });
+    this.socket.addEventListener('message',  (event) => {
+      console.log('Message from server ', event.data);
+    });
+    // this.webSocketSubject
+    //   .subscribe((res: any) => console.log({res}));
 
     setTimeout(() => {
       this.sidenavSubscription = this.dataService.currentSidenav
