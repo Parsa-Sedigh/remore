@@ -4,6 +4,7 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
+import {SocketService} from '../shared/socket.service';
 
 export interface PeriodicElement {
   name: string;
@@ -18,9 +19,9 @@ export interface PeriodicElement {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  // private readonly socket: WebSocket = new WebSocket('ws://localhost:9400');
   // @ts-ignore
-  private readonly socket: WebSocket = new WebSocket('ws://remorebot.com/un1/socket.io');
-  // private readonly webSocketSubject: any = new webSocket<any>('ws://remorebot.com/un1/socket.io');
+  // private readonly webSocketSubject: WebSocketSubject<any> = new webSocket<any>('ws://localhost:9400');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -34,6 +35,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'}
   ];
+
+
   // @ts-ignore
   @ViewChild('sidenav') sidenav: MatSidenav;
   private sidenavSubscription: Subscription | undefined;
@@ -74,15 +77,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly yAxisLabel = 'hello2';
 
   constructor(private readonly dataService: DataService,
-              private readonly router: Router) { }
+              private readonly router: Router,
+              private readonly socketService: SocketService) { }
 
   ngOnInit(): void {
-    this.socket.addEventListener('open', (event) => {
-      console.log(event, 'hello server');
-    });
-    this.socket.addEventListener('message',  (event) => {
-      console.log('Message from server ', event.data);
-    });
+    this.socketService.sendMessage('hello server');
+    this.socketService.onNewMessage()
+      .subscribe(msg => {
+        console.log(msg);
+      });
+    // this.socket.on('', (e: any) => {
+    //   console.log('connected', e);
+    // });
+    // this.socket.addEventListener('open', (event) => {
+    //   console.log(event, 'hello server');
+    // });
+    // this.socket.addEventListener('message',  (event) => {
+    //   console.log('Message from server ', event.data);
+    // });
     // this.webSocketSubject
     //   .subscribe((res: any) => console.log({res}));
 

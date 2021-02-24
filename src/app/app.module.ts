@@ -25,8 +25,22 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {MatDividerModule} from '@angular/material/divider';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+// const config: SocketIoConfig = {
+//   url: 'http://remorebot.com:80/un1',
+//   options: {
+//     transportOptions: {
+//       polling: {
+//         extraHeaders: {
+//           'Access-Control-Allow-Origin': '*'
+//         }
+//       }
+//     }
+//   }
+// };
 
 @NgModule({
   declarations: [
@@ -57,9 +71,12 @@ import {MatDividerModule} from '@angular/material/divider';
     MatSlideToggleModule,
     MatBadgeModule,
     MatMenuModule,
-    MatDividerModule
+    MatDividerModule,
+    // SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
