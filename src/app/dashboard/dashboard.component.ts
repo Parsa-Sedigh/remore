@@ -5,6 +5,7 @@ import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {SocketService} from '../shared/socket.service';
+import {io, Socket} from 'socket.io-client';
 
 export interface PeriodicElement {
   name: string;
@@ -35,6 +36,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'}
   ];
+  socketSubscription: Subscription | undefined;
+  socket: Socket = io('http://remorebot.com', {
+    path: '/un1/socket.io/'
+  }).connect();
 
 
   // @ts-ignore
@@ -42,16 +47,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private sidenavSubscription: Subscription | undefined;
   readonly gaugeData = [
     {
-      "name": "UK",
-      "value": 5200000
+      'name': 'UK',
+      'value': 5200000
     },
     {
-      "name": "Italy",
-      "value": 7700000
+      'name': 'Italy',
+      'value': 7700000
     },
     {
-      "name": "Spain",
-      "value": 4300000
+      'name': 'Spain',
+      'value': 4300000
     }
   ];
   readonly colorScheme = {
@@ -76,16 +81,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly xAxisLabel = 'hello1';
   readonly yAxisLabel = 'hello2';
 
+
   constructor(private readonly dataService: DataService,
               private readonly router: Router,
-              private readonly socketService: SocketService) { }
+              private readonly socketService: SocketService) {
+  }
 
   ngOnInit(): void {
-    this.socketService.sendMessage('hello server');
-    this.socketService.onNewMessage()
-      .subscribe(msg => {
-        console.log(msg);
-      });
+    this.socket.on('futuresLastPrice', (msg: any) => {
+      console.log(msg);
+    });
+
+    this.socket.on('lampSignal', (msg: any) => {
+      console.log(msg);
+    });
+    this.socket.on('updateBitcoinChange', (msg: any) => {
+      console.log(msg);
+    });
+    // this.socketService.onNewMessage().on();
+    // this.socketService.onNewMessage()
     // this.socket.on('', (e: any) => {
     //   console.log('connected', e);
     // });
