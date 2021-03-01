@@ -90,3 +90,21 @@ a {
 .logo {
   width: 100px;
 }
+
+.cryptoImg {
+  position: absolute;
+  height: 65%;
+  right: 2rem;
+  @include respond(phone) {
+    display: none;
+  }
+}
+
+.bubblesImg {
+  position: absolute;
+  height: 50%;
+  left: 2rem;
+  @include respond(phone) {
+    display: none;
+  }
+}
