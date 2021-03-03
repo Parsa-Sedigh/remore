@@ -1,11 +1,12 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {MatSidenav} from '@angular/material/sidenav';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {SocketService} from '../shared/socket.service';
-import {io, Socket} from 'socket.io-client';
+// @ts-ignore
+import * as io from 'socket.io-client';
 
 export interface PeriodicElement {
   name: string;
@@ -19,9 +20,8 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   // private readonly socket: WebSocket = new WebSocket('ws://localhost:9400');
-  // @ts-ignore
   // private readonly webSocketSubject: WebSocketSubject<any> = new webSocket<any>('ws://localhost:9400');
   readonly displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   readonly tableSource: PeriodicElement[] = [
@@ -37,13 +37,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'}
   ];
   socketSubscription: Subscription | undefined;
-  socket: Socket = io('http://remorebot.com', {
+  socket = io('http://remorebot.com', {
     path: '/un1/socket.io/'
-  }).connect();
+  });
 
 
-  // @ts-ignore
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('sidenav') sidenav: any;
   private sidenavSubscription: Subscription | undefined;
   readonly gaugeData = [
     {
@@ -80,6 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ];
   readonly xAxisLabel = 'hello1';
   readonly yAxisLabel = 'hello2';
+  bitcoinPrice: number | undefined;
 
 
   constructor(private readonly dataService: DataService,
@@ -89,39 +89,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socket.on('futuresLastPrice', (msg: any) => {
-      console.log(msg);
+      console.log('futures: ', msg);
     });
-
     this.socket.on('lampSignal', (msg: any) => {
-      console.log(msg);
+      console.log('lampSignal', msg);
     });
-    this.socket.on('updateBitcoinChange', (msg: any) => {
-      console.log(msg);
+    this.socket.on('updateBitcoinChange', (bitcoinPrice: any) => {
+      this.bitcoinPrice = bitcoinPrice;
     });
+    // TODO: Don't implement this yet:
+    // this.socket.on('updateMarketPrice', (msg: any) => {
+    //   console.log('market: ', msg);
+    // });
     // this.socketService.onNewMessage().on();
     // this.socketService.onNewMessage()
     // this.socket.on('', (e: any) => {
     //   console.log('connected', e);
     // });
-    // this.socket.addEventListener('open', (event) => {
-    //   console.log(event, 'hello server');
-    // });
-    // this.socket.addEventListener('message',  (event) => {
-    //   console.log('Message from server ', event.data);
-    // });
     // this.webSocketSubject
     //   .subscribe((res: any) => console.log({res}));
+  }
 
-    setTimeout(() => {
-      this.sidenavSubscription = this.dataService.currentSidenav
-        .subscribe(sidenavState => {
-          if (sidenavState) {
-            this.sidenav.open();
-          } else {
-            this.sidenav.close();
-          }
-        });
-    }, 0);
+  ngAfterViewInit(): void {
+    this.sidenavSubscription = this.dataService.currentSidenav
+      .subscribe(sidenavState => {
+        if (sidenavState) {
+          this.sidenav.open();
+        } else {
+          this.sidenav.close();
+        }
+      });
   }
 
 
