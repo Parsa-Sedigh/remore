@@ -1,12 +1,13 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {MatSidenav} from '@angular/material/sidenav';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SocketService} from '../shared/socket.service';
 // @ts-ignore
 import * as io from 'socket.io-client';
+import {map} from 'rxjs/operators';
 
 export interface PeriodicElement {
   name: string;
@@ -41,73 +42,128 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     path: '/un1/socket.io/'
   });
 
-
   @ViewChild('sidenav') sidenav: any;
   private sidenavSubscription: Subscription | undefined;
-  readonly gaugeData = [
-    {
-      'name': 'UK',
-      'value': 5200000
-    },
-    {
-      'name': 'Italy',
-      'value': 7700000
-    },
-    {
-      'name': 'Spain',
-      'value': 4300000
-    }
-  ];
   readonly colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB']
+    domain: ['#CFC0BB', '#5AA454', '#E44D25', '#25D4E4']
   };
-  readonly gaugeDimensions: [number, number] = [400, 300];
-  readonly verticalBarDimensions: [number, number] = [400, 300];
-  readonly verticalBarData = [
-    {
-      name: 'Germany',
-      value: 8940000
-    },
-    {
-      name: 'USA',
-      value: 5000000
-    },
-    {
-      name: 'France',
-      value: 7200000
-    }
-  ];
-  readonly xAxisLabel = 'hello1';
-  readonly yAxisLabel = 'hello2';
+  readonly gaugeDimensions: [number, number] = [765, 400];
+  readonly verticalBarDimensions: [number, number] = [170, 400];
+  readonly yAxisLabel = 'signal';
   bitcoinPrice: number | undefined;
+  readonly currencies: any[] = [
+    {name: 'ADA', value: 0},
+    {name: 'BNB', value: 0},
+    {name: 'BCH', value: 0},
+    {name: 'BTC', value: 0},
+    {name: 'LTC', value: 0},
+    {name: 'ETH', value: 0},
+    {name: 'XRP', value: 0},
+    {name: 'LINK', value: 0},
+    {name: 'EOS', value: 0}
+  ];
+  currentCurrency: string | undefined;
+
+  // States:
+  lampsState: any;
+  verticalBarState: any =  [
+    {
+      name: 'Signal',
+      series:
+        [
+            // {
+            //   name: 'hold',
+            //   value: 1
+            // },
+            // {
+            //   name: 'buy',
+            //   value: 1
+            // },
+            // {
+            //   name: 'sell',
+            //   value: 1
+            // }
+          ]
+        }
+      ];
+  gaugeState: any = [
+    {
+      name: 'UK',
+      value: 180
+    },
+  ];
 
 
   constructor(private readonly dataService: DataService,
               private readonly router: Router,
+              private readonly route: ActivatedRoute,
               private readonly socketService: SocketService) {
   }
 
   ngOnInit(): void {
+    this.route.paramMap
+      .pipe(map((paramsMap: any) => paramsMap.params.currency))
+      .subscribe(currentCurrency => this.currentCurrency = currentCurrency);
+
+    this.onSocketConnections();
+  }
+
+  private onSocketConnections(): void {
     this.socket.on('futuresLastPrice', (msg: any) => {
-      console.log('futures: ', msg);
+      // console.log('futures: ', msg);
     });
-    this.socket.on('lampSignal', (msg: any) => {
-      console.log('lampSignal', msg);
+
+    this.socket.on('lampSignal', (lampSignal: any) => {
+      if (lampSignal.split('^^')[0].replace('USDT', '') === this.currentCurrency) {
+        console.log(lampSignal.split('^^')[1].split('@'));
+        this.verticalBarState[0].series = [...[]];
+        switch (lampSignal.split('^^')[1].split('@')[0]) {
+          case 'NOT':
+            // @ts-ignore
+            this.verticalBarState[0].series = [...this.verticalBarState[0].series,
+              // {name: 'nothing', value: 1},
+              ...[{name: 'hold', value: 1}],
+              ];
+            break;
+
+          case 'BUY':
+            // @ts-ignore
+            this.verticalBarState[0].series = [...this.verticalBarState[0].series,
+              // {name: 'nothing', value: 1},
+              ...[{name: 'hold', value: 1},
+              {name: 'buy', value: 1}]
+              ];
+            break;
+
+          case 'SELL':
+            // @ts-ignore
+            this.verticalBarState[0].series = [...this.verticalBarState[0].series,
+              // {name: 'nothing', value: 1},
+              ...[{name: 'hold', value: 1},
+              {name: 'buy', value: 1},
+              {name: 'sell', value: 1}]
+              ];
+            break;
+          // case '4':
+          //   this.verticalBarState[0].series = [];
+          //   break;
+        }
+        this.lampsState = lampSignal.split(/[@@]/)[1].split('');
+        this.gaugeState = [
+          {name: this.currentCurrency,
+            value: lampSignal.split('^^')[1].split('@')[2]}
+          ];
+      }
     });
+
     this.socket.on('updateBitcoinChange', (bitcoinPrice: any) => {
-      this.bitcoinPrice = bitcoinPrice;
+      this.currencies[3].value = bitcoinPrice;
     });
+
     // TODO: Don't implement this yet:
     // this.socket.on('updateMarketPrice', (msg: any) => {
     //   console.log('market: ', msg);
     // });
-    // this.socketService.onNewMessage().on();
-    // this.socketService.onNewMessage()
-    // this.socket.on('', (e: any) => {
-    //   console.log('connected', e);
-    // });
-    // this.webSocketSubject
-    //   .subscribe((res: any) => console.log({res}));
   }
 
   ngAfterViewInit(): void {
@@ -126,11 +182,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataService.changeSidenav(false);
   }
 
-  onLogout() {
+  onLogout(): void {
     this.router.navigate(['/login']);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.sidenavSubscription?.unsubscribe();
   }
 

@@ -8,36 +8,63 @@
 
   <mat-sidenav-content>
     <section class="section-dashboard">
-      <div class="currencies result">
-        <div class="result__detail">
-          <img src="assets/BTC.png" alt="bitcoin" class="result__img">
-          <p class="result__value">{{bitcoinPrice}}</p>
-        </div>
-        <mat-divider vertical style="height: 100px;"></mat-divider>
-        <div class="result__detail">
-          <p class="result__header">id</p>
-          <p class="result__value">451</p>
-        </div>
-      </div>
+      <div class="currencies list">
+        <ng-container *ngFor="let currency of currencies">
+          <div class="list__detail" routerLinkActive="active">
+            <a class=list__link [routerLink]="['/dashboard', currency.name]">
+              <img [src]="'/assets/' + currency.name + '.png'" [alt]="currency.name" class="list__img">
+              <p class="list__name">{{currency.name}}</p>
+              <p class="list__value">{{currency.value}}</p>
+            </a>
+          </div>
+          <mat-divider vertical style="height: 100px;"></mat-divider>
+        </ng-container>
 
+
+      </div>
+<!--     [src]="'assets/images/lamps/' + state === 'r' ? 'r_lamp.png' : 'w_lamp.png'" -->
       <div class="charts">
         <div class="charts__gauge">
-          <ngx-charts-gauge [results]="gaugeData"
+          <ngx-charts-gauge [view]="gaugeDimensions"
+                            [min]="-90"
+                            [max]="0"
+                            [bigSegments]="2"
+                            [angleSpan]="180"
+                            [startAngle]="-90"
+                            [results]="gaugeState"
                             [scheme]="colorScheme">
           </ngx-charts-gauge>
+
+          <div class="gauge__lamps" *ngIf="lampsState">
+            <ng-container *ngFor="let state of lampsState">
+              <img class="gauge__lamp"
+                   [src]="state === 'w' ? '../../assets/images/lamps/w_lamp.png' : '../../assets/images/lamps/r_lamp.png'"
+                   [alt]="state === 'w' ? 'white-lamp' : 'red-lamp'">
+            </ng-container>
+
+          </div>
+
         </div>
 
         <div class="charts__vertical-bar">
-          <ngx-charts-bar-vertical [results]="verticalBarData"
+          <ngx-charts-bar-vertical-normalized
+                                    [legend]="true"
+                                    legendPosition="below"
+                                    [legendTitle]="'signals'"
+                                   [results]="verticalBarState"
+                                   [view]="verticalBarDimensions"
                                    [scheme]="colorScheme"
                                    [showXAxisLabel]="true"
                                    [showYAxisLabel]="true"
-                                   [xAxisLabel]="xAxisLabel"
                                    [yAxisLabel]="yAxisLabel"
                                    [xAxis]="true"
-                                   [yAxis]="true">
-          </ngx-charts-bar-vertical>
+                                   [yAxis]="false">
+            <ng-template #tooltipTemplate let-model="model">
+              {{model.name}}
+            </ng-template>
+          </ngx-charts-bar-vertical-normalized>
         </div>
+        {{verticalBarState | json}}
       </div>
 
       <div class="table">
@@ -67,30 +94,30 @@
         </mat-table>
       </div>
 
-      <div class="result">
-        <div class="result__detail">
-          <p class="result__header">id</p>
-          <p class="result__value">451</p>
+      <div class="list">
+        <div class="list__detail">
+          <p class="list__header">id</p>
+          <p class="list__value">451</p>
         </div>
         <mat-divider vertical style="height: 100px;"></mat-divider>
-        <div class="result__detail">
-          <p class="result__header">buy</p>
-          <p class="result__value">21241235</p>
+        <div class="list__detail">
+          <p class="list__header">buy</p>
+          <p class="list__value">21241235</p>
         </div>
         <mat-divider vertical style="height: 100px;"></mat-divider>
-        <div class="result__detail">
-          <p class="result__header">sell</p>
-          <p class="result__value">21241235</p>
+        <div class="list__detail">
+          <p class="list__header">sell</p>
+          <p class="list__value">21241235</p>
         </div>
         <mat-divider vertical style="height: 100px;"></mat-divider>
-        <div class="result__detail">
-          <p class="result__header">EST benefit</p>
-          <p class="result__value">346334</p>
+        <div class="list__detail">
+          <p class="list__header">EST benefit</p>
+          <p class="list__value">346334</p>
         </div>
         <mat-divider vertical style="height: 100px;"></mat-divider>
-        <div class="result__detail">
-          <p class="result__header">result</p>
-          <p class="result__value">100%</p>
+        <div class="list__detail">
+          <p class="list__header">result</p>
+          <p class="list__value">100%</p>
         </div>
       </div>
     </section>

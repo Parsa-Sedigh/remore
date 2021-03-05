@@ -7,7 +7,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent},
+  {path: 'dashboard/:currency', component: DashboardComponent},
+  {path: 'dashboard', pathMatch: 'full', redirectTo: 'dashboard/BTC'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   // {path: '**', component: PageNotFoundComponent}

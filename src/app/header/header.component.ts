@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.currentSidenav
+    this.sidenavSubscription = this.dataService.currentSidenav
       .subscribe(sidenavState => {
         this.isSidenavOpen = sidenavState;
       });
