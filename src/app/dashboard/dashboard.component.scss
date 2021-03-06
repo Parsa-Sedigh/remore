@@ -49,10 +49,9 @@ svg {
   }
 
   &__gauge {
+    position: relative;
     flex: 1;
     margin-right: 1rem;
-    //width: 600px;
-    //height: 400px;
     border-radius: 8px;
     //background-color: #303030;
     background: hsla(0,0%,100%,.01);
@@ -170,6 +169,10 @@ svg {
 .gauge {
 
   &__lamps {
+    position: absolute;
+    bottom: 7rem;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
   }
   &__lamp {
