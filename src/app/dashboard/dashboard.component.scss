@@ -81,6 +81,11 @@ svg {
     fill: #fff;
   }
 
+  ::ng-deep ngx-charts-chart .ngx-charts-outer .ngx-charts text tspan {
+    font-size: 1rem !important;
+    transform: scale(5, 5) !important;
+  }
+
   &__vertical-bar {
     //width: 175px;
     //height: 300px;

@@ -27,6 +27,7 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 import {MatDividerModule} from '@angular/material/divider';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // const config: SocketIoConfig = {
@@ -50,6 +51,7 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
+    LoadingSpinnerComponent,
     // PageNotFoundComponent
   ],
   imports: [

@@ -23,7 +23,8 @@
 
       </div>
 <!--     [src]="'assets/images/lamps/' + state === 'r' ? 'r_lamp.png' : 'w_lamp.png'" -->
-      <div class="charts">
+      <div class="charts" *ngIf="!isLoading">
+        {{isLoading}}
         <div class="charts__gauge">
           <ngx-charts-gauge [view]="gaugeDimensions"
                             [min]="-90"
@@ -31,6 +32,7 @@
                             [bigSegments]="2"
                             [angleSpan]="180"
                             [startAngle]="-90"
+                            [valueFormatting]="gaugeValueFormatter"
                             [results]="gaugeState"
                             [scheme]="colorScheme">
           </ngx-charts-gauge>
