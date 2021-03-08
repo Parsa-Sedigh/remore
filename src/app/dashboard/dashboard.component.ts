@@ -109,10 +109,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     yAxis: {
       min: 0,
       max: 2,
-      categories: ['buy', 'sell']
+      categories: ['', 'hold', 'buy', 'sell']
     },
     xAxis: {
-      categories: ['hold']
+      categories: []
     },
     legend: {
       reversed: true
@@ -176,7 +176,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         switch (lampSignal.split('^^')[1].split('@')[0]) {
           case 'NOT':
             // @ts-ignore
-            this.verticalBarOptions.series[0].data = [];
+            this.verticalBarOptions.series[0].data = [1];
             this.changeDetectorRef.detectChanges();
 
             // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}]);
@@ -186,7 +186,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
           case 'BUY':
             // @ts-ignore
-            this.verticalBarOptions.series[0].data = [1];
+            this.verticalBarOptions.series[0].data = [2];
             this.changeDetectorRef.detectChanges();
 
             // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}, {name: 'buy', value: 1}]);
@@ -196,7 +196,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
           case 'SELL':
             // @ts-ignore
-            this.verticalBarOptions.series[0].data = [2];
+            this.verticalBarOptions.series[0].data = [3];
             this.changeDetectorRef.detectChanges();
 
             // this.verticalBarState[0].series = this.deepClone(
