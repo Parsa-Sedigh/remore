@@ -1,8 +1,8 @@
 <mat-sidenav-container (backdropClick)="onCloseSidebar()">
   <mat-sidenav class="sidebar" #sidenav>
     <button mat-menu-item (click)="onLogout()">
-        <mat-icon>logout</mat-icon>
-        logout
+      <mat-icon>logout</mat-icon>
+      logout
     </button>
   </mat-sidenav>
 
@@ -12,7 +12,7 @@
         <ng-container *ngFor="let currency of currencies">
           <div class="list__detail" routerLinkActive="active">
             <a class=list__link [routerLink]="['/dashboard', currency.name]">
-              <img [src]="'/assets/' + currency.name + '.png'" [alt]="currency.name" class="list__img">
+              <img [src]="'../../assets/' + currency.name + '.png'" [alt]="currency.name" class="list__img">
               <p class="list__name">{{currency.name}}</p>
               <p class="list__value">{{currency.value}}</p>
             </a>
@@ -22,14 +22,13 @@
 
 
       </div>
-<!--     [src]="'assets/images/lamps/' + state === 'r' ? 'r_lamp.png' : 'w_lamp.png'" -->
-      <div class="charts" *ngIf="!isLoading">
-        {{isLoading}}
+      <!--     [src]="'assets/images/lamps/' + state === 'r' ? 'r_lamp.png' : 'w_lamp.png'" -->
+      <div class="charts" *ngIf="!isLoading else loadingSpinner">
         <div class="charts__gauge">
           <ngx-charts-gauge [view]="gaugeDimensions"
                             [min]="-90"
                             [max]="90"
-                            [bigSegments]="2"
+                            [bigSegments]="4"
                             [angleSpan]="180"
                             [startAngle]="-90"
                             [valueFormatting]="gaugeValueFormatter"
@@ -49,25 +48,36 @@
         </div>
 
         <div class="charts__vertical-bar">
-          <ngx-charts-bar-vertical-normalized
-                                    [legend]="true"
-                                    legendPosition="below"
-                                    [legendTitle]="'signals'"
-                                   [results]="verticalBarState"
-                                   [view]="verticalBarDimensions"
-                                   [scheme]="colorScheme"
-                                   [showXAxisLabel]="true"
-                                   [showYAxisLabel]="true"
-                                   [yAxisLabel]="yAxisLabel"
-                                   [xAxis]="true"
-                                   [yAxis]="false">
-            <ng-template #tooltipTemplate let-model="model">
-              {{model.name}}
-            </ng-template>
-          </ngx-charts-bar-vertical-normalized>
+<!--          <ngx-charts-bar-vertical-normalized-->
+<!--            [legend]="true"-->
+<!--            legendPosition="below"-->
+<!--            [legendTitle]="'signals'"-->
+<!--            [results]="verticalBarState"-->
+<!--            [view]="verticalBarDimensions"-->
+<!--            [scheme]="colorScheme"-->
+<!--            [showXAxisLabel]="true"-->
+<!--            [showYAxisLabel]="true"-->
+<!--            [yAxisLabel]="yAxisLabel"-->
+<!--            [xAxis]="true"-->
+<!--            [yAxis]="false">-->
+<!--            <ng-template #tooltipTemplate let-model="model">-->
+<!--              {{model.name}}-->
+<!--            </ng-template>-->
+<!--          </ngx-charts-bar-vertical-normalized>-->
+
+        <highcharts-chart
+          class="charts__highChart"
+          [Highcharts]="Highcharts"
+          [options]="verticalBarOptions"></highcharts-chart>
         </div>
-        {{verticalBarState | json}}
+        {{verticalBarOptions.series | json}}
       </div>
+
+      <ng-template #loadingSpinner>
+        <div style="display: flex;justify-content: center;">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+      </ng-template>
 
       <div class="table">
         <mat-table [dataSource]="tableSource" class="mat-elevation-z8 my-mat-table">

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -6,6 +6,9 @@ import {SocketService} from '../shared/socket.service';
 // @ts-ignore
 import * as io from 'socket.io-client';
 import {map} from 'rxjs/operators';
+import {fromJS} from 'immutable';
+import * as Highcharts from 'highcharts';
+import {Options} from 'highcharts';
 
 export interface PeriodicElement {
   name: string;
@@ -63,41 +66,69 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   currentCurrency: string | undefined;
 
+  // series: [{
+  //   name: 'hold',
+  //   value: 1
+  // },
+  // {
+  //   name: 'buy',
+  //   value: 1
+  // },
+  // {
+  //   name: 'sell',
+  //   value: 1
+  // }]
+
   // States:
   lampsState: any;
-  verticalBarState: any = [
-    {
-      name: 'Signal',
-      series:
-        [
-          // {
-          //   name: 'hold',
-          //   value: 1
-          // },
-          // {
-          //   name: 'buy',
-          //   value: 1
-          // },
-          // {
-          //   name: 'sell',
-          //   value: 1
-          // }
-        ]
-    }
-  ];
+  // verticalBarState: any = [
+  //   {
+  //     name: 'Signal',
+  //     series: []
+  //   }
+  // ];
   gaugeState: any = [
     {
       name: 'UK',
       value: 180
     },
   ];
+  verticalBarState: any;
 
   isLoading = true;
+
+  Highcharts = Highcharts;
+  verticalBarOptions: Options = {
+    chart: {
+      type: 'column',
+      width: 200
+    },
+    title: {
+      text: 'Signals'
+    },
+    yAxis: {
+      min: 0,
+      max: 2,
+      categories: ['buy', 'sell']
+    },
+    xAxis: {
+      categories: ['hold']
+    },
+    legend: {
+      reversed: true
+    },
+    series: [{
+      type: 'column',
+      name: 'signal',
+      data: [],
+    }]
+  };
 
   constructor(private readonly dataService: DataService,
               private readonly router: Router,
               private readonly route: ActivatedRoute,
-              private readonly socketService: SocketService) {
+              private readonly socketService: SocketService,
+              private readonly changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -107,13 +138,24 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentCurrency = currentCurrency;
         this.isLoading = true;
       });
-
     this.onSocketConnections();
+
+  }
+
+   private deepClone<T>(value: any): T {
+    // return fromJS(value);
+     return JSON.parse(JSON.stringify(value));
   }
 
   gaugeValueFormatter(value: any): string {
-    console.log(value.replace(/^.+?(\.\.\.) /, '1'));
-    return value.replace(/^.+?(\.\.\.) /, '1');
+    if (value) {
+      if (value.toString().split('')[0] === '0') {
+        value.split('')[0].replace('');
+      }
+    }
+
+
+    return value;
   }
 
   private onSocketConnections(): void {
@@ -122,50 +164,64 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.socket.on('lampSignal', (lampSignal: any) => {
+
       if (lampSignal.split('^^')[0].replace('USDT', '') === this.currentCurrency) {
-        console.log(lampSignal.split('^^'));
-        this.verticalBarState[0].series = [...[]];
+        // @ts-ignore
+        console.log(this.verticalBarOptions.series[0].data, lampSignal.split('^^')[1].split('@'));
+
+        // this.verticalBarOptions.series[0].data = this.deepClone([]);
+        // @ts-ignore
+        // this.verticalBarOptions.series[0].data = [];
+        // console.log(lampSignal.split('^^')[1].split('@'), this.currentCurrency);
         switch (lampSignal.split('^^')[1].split('@')[0]) {
           case 'NOT':
             // @ts-ignore
-            this.verticalBarState[0].series = JSON.parse(JSON.stringify([...this.verticalBarState[0].series,
-              // {name: 'nothing', value: 1},
-              ...[{name: 'hold', value: 1}],
-            ]));
+            this.verticalBarOptions.series[0].data = [];
+            this.changeDetectorRef.detectChanges();
+
+            // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}]);
+
+
             break;
 
           case 'BUY':
             // @ts-ignore
-            this.verticalBarState[0].series = JSON.parse(JSON.stringify([...this.verticalBarState[0].series,
-              // {name: 'nothing', value: 1},
-              ...[{name: 'hold', value: 1}, {name: 'buy', value: 1}]
-            ]));
+            this.verticalBarOptions.series[0].data = [1];
+            this.changeDetectorRef.detectChanges();
+
+            // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}, {name: 'buy', value: 1}]);
+
+
             break;
 
           case 'SELL':
             // @ts-ignore
-            this.verticalBarState[0].series = JSON.parse(JSON.stringify([...this.verticalBarState[0].series,
-              // {name: 'nothing', value: 1},
-              ...[{name: 'hold', value: 1}, {name: 'buy', value: 1}, {name: 'sell', value: 1}]
-            ]));
+            this.verticalBarOptions.series[0].data = [2];
+            this.changeDetectorRef.detectChanges();
+
+            // this.verticalBarState[0].series = this.deepClone(
+            //   [{name: 'hold', value: 1}, {name: 'buy', value: 1}, {name: 'sell', value: 1}]);
+
+
+
             break;
           // case '4':
           //   this.verticalBarState[0].series = [];
           //   break;
         }
+
         this.lampsState = lampSignal.split(/[@@]/)[1].split('');
-        this.gaugeState = [
-          {
+        this.gaugeState = [{
             name: this.currentCurrency,
             value: lampSignal.split('^^')[1].split('@')[2]
-          }
-        ];
-      }
+          }];
 
+      }
       this.isLoading = false;
     });
 
     this.socket.on('updateBitcoinChange', (bitcoinPrice: any) => {
+      // console.log(bitcoinPrice);
       this.currencies[3].value = bitcoinPrice;
     });
 

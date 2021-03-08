@@ -1,0 +1,17 @@
+:host {
+  display: inline-block;
+}
+.loader {
+  display: inline-block;
+  border: .55rem solid #E6E6E6;
+  border-top: .55rem solid #12182B;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

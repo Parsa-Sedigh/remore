@@ -39,7 +39,7 @@ svg {
 }
 
 .charts {
-  width: 70%;
+  widtH: 80%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -58,7 +58,7 @@ svg {
     //box-shadow: 0px 5px 5px -3px rgb(2 5 5 / 20%),
     //0px 8px 10px 1px rgb(2 5 5 / 14%),
     //0px 3px 14px 2px rgb(2 5 5 / 12%);
-    border: .5px solid hsla(0,0%,100%,.2);
+    border: .5px solid #12182B;
     @include styles.respond(tab-port) {
       width: 100%;
       margin-bottom: 1rem;
@@ -66,19 +66,19 @@ svg {
   }
 
   ::ng-deep .gauge ::ng-deep .gauge-tick ::ng-deep text {
-    fill: #fff;
+    fill: #12182B;
   }
 
   ::ng-deep .gauge ::ng-deep ::ng-deep .gauge-tick-large path {
-    stroke: #fff;
+    stroke: #12182B;
   }
 
-  ::ng-deep .gauge ::ng-deep .gauge-tick ::ng-deep path {stroke: #fff;}
+  ::ng-deep .gauge ::ng-deep .gauge-tick ::ng-deep path {stroke: #12182B;}
   ::ng-deep .tick {
-    fill: #fff;
+    fill: #12182B;
   }
   ::ng-deep text {
-    fill: #fff;
+    fill: #12182B;
   }
 
   ::ng-deep ngx-charts-chart .ngx-charts-outer .ngx-charts text tspan {
@@ -87,6 +87,9 @@ svg {
   }
 
   &__vertical-bar {
+    //overflow: hidden;
+    padding: .5rem;
+
     //width: 175px;
     //height: 300px;
     border-radius: 8px;
@@ -95,10 +98,16 @@ svg {
     //box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
     //0px 8px 10px 1px rgb(0 0 0 / 14%),
     //0px 3px 14px 2px rgb(0 0 0 / 12%);
-    border: .5px solid hsla(0,0%,100%,.2);
+    border: .5px solid #12182B;
     @include styles.respond(tab-port) {
       width: 100%;
     }
+  }
+
+  &__highChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -126,7 +135,7 @@ svg {
   //padding: 1rem 0;
   font-size: 1.2rem;
   background: hsla(0,0%,100%,.01);
-  border: .5px solid hsla(0,0%,100%,.2);
+  border: .5px solid #12182B;
   border-radius: 8px;
 
   &__link {
@@ -139,19 +148,23 @@ svg {
   }
   &__detail {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     &:hover {
-      background-color: #ffffff80;
+      background-color: rgba(212, 212, 212, 0.5);
       cursor: pointer;
-      color: #000;
+      color: #12182B;
     }
   }
   &__header {
-    margin-bottom: auto;
+    text-align: center;
+    margin-bottom: 1rem;
   }
   &__value {
     text-align: center;
-    color: #fff;
+    color: #12182B;
   }
   &__img {
     width: 50px;
@@ -159,12 +172,12 @@ svg {
   }
   &__name {
     text-align: center;
-    color: #fff;
+    color: #12182B;
   }
 }
 
 .active {
-  background-color: #ffffff80;
+  background-color: rgba(212, 212, 212, 0.5);
 }
 
 .currencies {

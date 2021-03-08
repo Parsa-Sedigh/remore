@@ -1,9 +1,76 @@
 @import "~@angular/material/theming";
 @include mat-core();
-//$primary-color: #1f2944;
-$remore-primary: mat-palette($mat-indigo);
-$remore-accent: mat-palette($mat-pink, A200, A100, A400);
-$remore-theme: mat-dark-theme($remore-primary, $remore-accent);
+
+$remore-navy-blue: (
+  50: #12182B,
+  100: #12182B,
+  200: #12182B,
+  300: #12182B,
+  400: #12182B,
+  500: #12182B,
+  600: #12182B,
+  700: #12182B,
+  800: #12182B,
+  900: #12182B,
+  A100: #12182B,
+  A200: #12182B,
+  A400: #12182B,
+  A700: #12182B,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+$remore-grey: (
+  50: #CDCED9,
+  100: #CDCED9,
+  200: #CDCED9,
+  300: #CDCED9,
+  400: #CDCED9,
+  500: #CDCED9,
+  600: #CDCED9,
+  700: #CDCED9,
+  800: #CDCED9,
+  900: #CDCED9,
+  A100: #CDCED9,
+  A200: #CDCED9,
+  A400: #CDCED9,
+  A700: #CDCED9,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$remore-primary: mat-palette($remore-navy-blue, 100, 50, 200);
+$remore-accent: mat-palette($remore-grey, 100, 50, 200);
+
+$remore-theme: mat-light-theme($remore-primary, $remore-accent);
+
 @include angular-material-theme($remore-theme);
 
 .remore-dark-theme {

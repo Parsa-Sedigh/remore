@@ -25,9 +25,10 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {MatDividerModule} from '@angular/material/divider';
-import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import {ChartModule} from 'angular-highcharts';
+import {HighchartsChartModule} from 'highcharts-angular';
 
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // const config: SocketIoConfig = {
@@ -74,6 +75,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     MatBadgeModule,
     MatMenuModule,
     MatDividerModule,
+    ChartModule,
+    HighchartsChartModule,
     // SocketIoModule.forRoot(config)
   ],
   providers: [
