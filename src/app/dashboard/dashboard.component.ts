@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     },
     yAxis: {
       min: 0,
-      max: 2,
+      max: 3,
       categories: ['', 'hold', 'buy', 'sell']
     },
     xAxis: {
