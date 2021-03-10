@@ -27,7 +27,6 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 import {MatDividerModule} from '@angular/material/divider';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import {ChartModule} from 'angular-highcharts';
 import {HighchartsChartModule} from 'highcharts-angular';
 
 // import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -75,7 +74,6 @@ import {HighchartsChartModule} from 'highcharts-angular';
     MatBadgeModule,
     MatMenuModule,
     MatDividerModule,
-    ChartModule,
     HighchartsChartModule,
     // SocketIoModule.forRoot(config)
   ],

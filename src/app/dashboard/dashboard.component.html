@@ -68,9 +68,11 @@
         <highcharts-chart
           class="charts__highChart"
           [Highcharts]="Highcharts"
-          [options]="verticalBarOptions"></highcharts-chart>
+          [options]="verticalBarOptions"
+          [(update)]="updateFlag"
+          style="width: 100%; height: 400px; display: block;"
+          #verticalBar></highcharts-chart>
         </div>
-        {{verticalBarOptions.series | json}}
       </div>
 
       <ng-template #loadingSpinner>

@@ -1,4 +1,13 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {DataService} from '../shared/data.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -45,6 +54,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   @ViewChild('sidenav') sidenav: any;
+  @ViewChild('verticalBar') verticalBar: any;
   private sidenavSubscription: Subscription | undefined;
   readonly colorScheme = {
     domain: ['#CFC0BB', '#5AA454', '#E44D25', '#25D4E4']
@@ -118,33 +128,36 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       reversed: true
     },
     series: [{
-      type: 'column',
-      name: 'signal',
-      data: [],
-    }]
+        type: 'column',
+        name: 'signal',
+        data: []
+      }]
   };
+  updateFlag = false;
 
   constructor(private readonly dataService: DataService,
               private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly socketService: SocketService,
-              private readonly changeDetectorRef: ChangeDetectorRef) {
+              private readonly changeDetectorRef: ChangeDetectorRef,
+              private readonly ngZone: NgZone) {
   }
 
   ngOnInit(): void {
     this.route.paramMap
       .pipe(map((paramsMap: any) => paramsMap.params.currency))
       .subscribe(currentCurrency => {
+        // @ts-ignore
+        console.log(this.verticalBarOptions.series[0].data);
         this.currentCurrency = currentCurrency;
         this.isLoading = true;
       });
-    this.onSocketConnections();
 
   }
 
-   private deepClone<T>(value: any): T {
+  private deepClone<T>(value: any): T {
     // return fromJS(value);
-     return JSON.parse(JSON.stringify(value));
+    return JSON.parse(JSON.stringify(value));
   }
 
   gaugeValueFormatter(value: any): string {
@@ -159,76 +172,78 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onSocketConnections(): void {
-    this.socket.on('futuresLastPrice', (msg: any) => {
-      // console.log('futures: ', msg);
-    });
+    this.ngZone.run(() => {
+      this.socket.on('futuresLastPrice', (msg: any) => {
+        // console.log('futures: ', msg);
+      });
 
-    this.socket.on('lampSignal', (lampSignal: any) => {
+      this.socket.on('lampSignal', (lampSignal: any) => {
 
-      if (lampSignal.split('^^')[0].replace('USDT', '') === this.currentCurrency) {
-        // @ts-ignore
-        console.log(this.verticalBarOptions.series[0].data, lampSignal.split('^^')[1].split('@'));
+        if (lampSignal.split('^^')[0].replace('USDT', '') === this.currentCurrency) {
+          console.log('hello');
+          // @ts-ignore
 
-        // this.verticalBarOptions.series[0].data = this.deepClone([]);
-        // @ts-ignore
-        // this.verticalBarOptions.series[0].data = [];
-        // console.log(lampSignal.split('^^')[1].split('@'), this.currentCurrency);
-        switch (lampSignal.split('^^')[1].split('@')[0]) {
-          case 'NOT':
-            // @ts-ignore
-            this.verticalBarOptions.series[0].data = [1];
-            this.changeDetectorRef.detectChanges();
+          // this.verticalBarOptions.series[0].data = this.deepClone([]);
+          // @ts-ignore
+          // this.verticalBarOptions.series[0].data = [];
+          // console.log(lampSignal.split('^^')[1].split('@'), this.currentCurrency);
+          switch (lampSignal.split('^^')[1].split('@')[0]) {
+            case 'NOT':
+              // @ts-ignore
+              this.verticalBarOptions.series[0].data = [1];
+                // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}]);
 
-            // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}]);
+                break;
 
-
-            break;
-
-          case 'BUY':
-            // @ts-ignore
-            this.verticalBarOptions.series[0].data = [2];
-            this.changeDetectorRef.detectChanges();
-
-            // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}, {name: 'buy', value: 1}]);
+            case 'BUY':
+              // @ts-ignore
+              this.verticalBarOptions.series[0].data = [2];
+              // @ts-ignore
+              // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}, {name: 'buy', value: 1}]);
 
 
-            break;
+              break;
 
-          case 'SELL':
-            // @ts-ignore
-            this.verticalBarOptions.series[0].data = [3];
-            this.changeDetectorRef.detectChanges();
+            case 'SELL':
+              // @ts-ignore
+              this.verticalBarOptions.series[0].data = [3];
+              // @ts-ignore
 
-            // this.verticalBarState[0].series = this.deepClone(
-            //   [{name: 'hold', value: 1}, {name: 'buy', value: 1}, {name: 'sell', value: 1}]);
+              // this.verticalBarState[0].series = this.deepClone(
+              //   [{name: 'hold', value: 1}, {name: 'buy', value: 1}, {name: 'sell', value: 1}]);
 
 
+              break;
+            // case '4':
+            //   this.verticalBarState[0].series = [];
+            //   break;
+          }
+          this.updateFlag = true;
+          // @ts-ignore
+          console.log(this.verticalBarOptions.series[0].data, lampSignal.split('^^')[1].split('@'), this.verticalBarOptions.series[0].data);
 
-            break;
-          // case '4':
-          //   this.verticalBarState[0].series = [];
-          //   break;
-        }
-
-        this.lampsState = lampSignal.split(/[@@]/)[1].split('');
-        this.gaugeState = [{
+          this.lampsState = lampSignal.split(/[@@]/)[1].split('');
+          this.gaugeState = [{
             name: this.currentCurrency,
             value: lampSignal.split('^^')[1].split('@')[2]
           }];
 
-      }
-      this.isLoading = false;
+        }
+        this.isLoading = false;
+      });
+
+      this.socket.on('updateBitcoinChange', (bitcoinPrice: any) => {
+        // console.log(bitcoinPrice);
+        this.currencies[3].value = bitcoinPrice;
+      });
+
+      // TODO: Don't implement this yet:
+      // this.socket.on('updateMarketPrice', (msg: any) => {
+      //   console.log('market: ', msg);
+      // });
     });
 
-    this.socket.on('updateBitcoinChange', (bitcoinPrice: any) => {
-      // console.log(bitcoinPrice);
-      this.currencies[3].value = bitcoinPrice;
-    });
 
-    // TODO: Don't implement this yet:
-    // this.socket.on('updateMarketPrice', (msg: any) => {
-    //   console.log('market: ', msg);
-    // });
   }
 
   ngAfterViewInit(): void {
@@ -240,6 +255,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.sidenav.close();
         }
       });
+
+    this.onSocketConnections();
+
   }
 
 
