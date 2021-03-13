@@ -76,34 +76,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   currentCurrency: string | undefined;
 
-  // series: [{
-  //   name: 'hold',
-  //   value: 1
-  // },
-  // {
-  //   name: 'buy',
-  //   value: 1
-  // },
-  // {
-  //   name: 'sell',
-  //   value: 1
-  // }]
-
   // States:
   lampsState: any;
-  // verticalBarState: any = [
-  //   {
-  //     name: 'Signal',
-  //     series: []
-  //   }
-  // ];
   gaugeState: any = [
     {
       name: 'UK',
       value: 180
     },
   ];
-  verticalBarState: any;
 
   isLoading = true;
 
@@ -130,7 +110,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     series: [{
         type: 'column',
         name: 'signal',
-        data: []
+        // data: [{y: 1, color: '#e71010'}, {y: 2, color: '#000'}, {y: 3, color: '#1e8c82'}]
+      data: []
       }]
   };
   updateFlag = false;
@@ -180,43 +161,31 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.socket.on('lampSignal', (lampSignal: any) => {
 
         if (lampSignal.split('^^')[0].replace('USDT', '') === this.currentCurrency) {
-          console.log('hello');
-          // @ts-ignore
 
-          // this.verticalBarOptions.series[0].data = this.deepClone([]);
-          // @ts-ignore
-          // this.verticalBarOptions.series[0].data = [];
-          // console.log(lampSignal.split('^^')[1].split('@'), this.currentCurrency);
           switch (lampSignal.split('^^')[1].split('@')[0]) {
             case 'NOT':
               // @ts-ignore
-              this.verticalBarOptions.series[0].data = [1];
-                // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}]);
-
-                break;
+              this.verticalBarOptions.series[0].data = [{
+                y: 1,
+                color: '#000000'
+              }];
+              break;
 
             case 'BUY':
               // @ts-ignore
-              this.verticalBarOptions.series[0].data = [2];
-              // @ts-ignore
-              // this.verticalBarState[0].series = this.deepClone([{name: 'hold', value: 1}, {name: 'buy', value: 1}]);
-
-
+              this.verticalBarOptions.series[0].data = [{
+                y: 2,
+                color: '#3cc166'
+              }];
               break;
 
             case 'SELL':
               // @ts-ignore
-              this.verticalBarOptions.series[0].data = [3];
-              // @ts-ignore
-
-              // this.verticalBarState[0].series = this.deepClone(
-              //   [{name: 'hold', value: 1}, {name: 'buy', value: 1}, {name: 'sell', value: 1}]);
-
-
+              this.verticalBarOptions.series[0].data = [{
+                y: 3,
+                color: '#ff0000'
+              }];
               break;
-            // case '4':
-            //   this.verticalBarState[0].series = [];
-            //   break;
           }
           this.updateFlag = true;
           // @ts-ignore

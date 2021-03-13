@@ -86,6 +86,10 @@ svg {
     transform: scale(5, 5) !important;
   }
 
+  //::ng-deep .gauge ngx-charts-chart {
+  //  width: 100%;
+  //}
+
   &__vertical-bar {
     //overflow: hidden;
     padding: .5rem;

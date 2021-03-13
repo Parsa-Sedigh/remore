@@ -12,7 +12,7 @@
         <ng-container *ngFor="let currency of currencies">
           <div class="list__detail" routerLinkActive="active">
             <a class=list__link [routerLink]="['/dashboard', currency.name]">
-              <img [src]="'../../assets/' + currency.name + '.png'" [alt]="currency.name" class="list__img">
+              <img src="{{'assets/' + currency.name + '.png'}}" [alt]="currency.name" class="list__img">
               <p class="list__name">{{currency.name}}</p>
               <p class="list__value">{{currency.value}}</p>
             </a>
@@ -25,7 +25,8 @@
       <!--     [src]="'assets/images/lamps/' + state === 'r' ? 'r_lamp.png' : 'w_lamp.png'" -->
       <div class="charts" *ngIf="!isLoading else loadingSpinner">
         <div class="charts__gauge">
-          <ngx-charts-gauge [view]="gaugeDimensions"
+          <ngx-charts-gauge class="gauge"
+                            [view]="gaugeDimensions"
                             [min]="-90"
                             [max]="90"
                             [bigSegments]="4"
