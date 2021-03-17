@@ -40,7 +40,7 @@
           <div class="gauge__lamps" *ngIf="lampsState">
             <ng-container *ngFor="let state of lampsState">
               <img class="gauge__lamp"
-                   [src]="state === 'w' ? '../../assets/images/lamps/w_lamp.png' : '../../assets/images/lamps/r_lamp.png'"
+                   [src]="state === 'w' ? 'assets/images/lamps/w_lamp.png' : 'assets/images/lamps/r_lamp.png'"
                    [alt]="state === 'w' ? 'white-lamp' : 'red-lamp'">
             </ng-container>
 
